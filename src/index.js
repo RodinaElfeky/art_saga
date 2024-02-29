@@ -7,9 +7,13 @@ import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import { SwaggerTheme } from "swagger-themes";
 import fs from "fs";
+import morgan from "morgan";
 
 const outputFile = JSON.parse(fs.readFileSync("./swagger_output.json"));
-
+morgan.token("body", (req) => {
+  return JSON.stringify(req.body, null, 4);
+});
+app.use(morgan(":method :url :body"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
